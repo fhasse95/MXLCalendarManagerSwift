@@ -126,11 +126,14 @@ public class MXLCalendarEvent {
         self.eventUniqueID = uniqueID
         self.eventRecurrenceID = recurrenceID
         self.eventSummary = summary.replacingOccurrences(of: "\\", with: "")
-        self.eventDescription = description.replacingOccurrences(of: "\\", with: "")
+        self.eventSummary?.replaceSpecialCharacters()
+        self.eventDescription = description.replacingOccurrences(of: "\\n", with: "\n")
+            .replacingOccurrences(of: "\\", with: "")
+        self.eventDescription?.replaceSpecialCharacters()
         self.eventLocation = location.replacingOccurrences(of: "\\", with: "")
+        self.eventLocation?.replaceSpecialCharacters()
         self.eventStatus = status
         self.attendees = attendees
-
     }
 
     public func dateFromString(dateString: String) -> Date? {
