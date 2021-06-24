@@ -29,11 +29,11 @@ import Foundation
     import UIKit
 #endif
 
-public class MXLCalendarManager {
+open class MXLCalendarManager {
 
     public init() {}
 
-    public func scanICSFileAtRemoteURL(fileURL: URL, withCompletionHandler callback: @escaping (MXLCalendar?, Error?) -> Void) {
+    open func scanICSFileAtRemoteURL(fileURL: URL, withCompletionHandler callback: @escaping (MXLCalendar?, Error?) -> Void) {
         #if os(iOS)
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         #endif
@@ -44,7 +44,9 @@ public class MXLCalendarManager {
                 fileData = try Data(contentsOf: fileURL)
             } catch (let downloadError) {
                 #if os(iOS)
+                DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
+                }
                 #endif
                 callback(nil, downloadError)
                 return
@@ -62,7 +64,7 @@ public class MXLCalendarManager {
         }
     }
 
-    public func scanICSFileatLocalPath(filePath: String, withCompletionHandler callback: @escaping (MXLCalendar?, Error?) -> Void) {
+    open func scanICSFileatLocalPath(filePath: String, withCompletionHandler callback: @escaping (MXLCalendar?, Error?) -> Void) {
         var calendarFile = String()
         do {
             calendarFile = try String(contentsOfFile: filePath, encoding: .utf8)
